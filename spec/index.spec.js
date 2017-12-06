@@ -1,28 +1,6 @@
-/**
- * This javascript file will constitute the entry point of your solution.
- *
- * Edit it as you need.  It currently contains things that you might find helpful to get started.
- */
-
-// This is not really required, but means that changes to index.html will cause a reload.
-require('./site/index.html');
-// Apply the styles in style.css to the page.
-require('./site/style.css');
-
-// if you want to use es6, you can do something like
-require('./es6/supplant');
-// here to load the myEs6code.js file, and it will be automatically transpiled.
-
-// Change this to get detailed logging from the stomp library
-global.DEBUG = false
-
-const url = "ws://localhost:8011/stomp"
-const client = Stomp.client(url);
-client.debug = function(msg) {
-  if (global.DEBUG) {
-    console.info(msg)
-  }
-}
+var Jasmine = require('jasmine');
+var jasmine = new Jasmine();
+jasmine.loadConfigFile('spec/support/jasmine.json');
 
 // GLOBALS
 var stockTickers, stockTemplate, stocks = new Map(), sparks = new Map();
@@ -44,25 +22,22 @@ function updateStocks(data) {
     div.innerHTML = stockTemplate.supplant(body);
     stockTickers.insertBefore(div, firstDiv(stockTickers));
 
-    stock = createStock(stockTickers, stockName);
+    stock = {};
+    stock.box = stockTickers.querySelector(`#stock-id-${stockName}`);
+    stock.bestAsk = stockTickers.querySelector(`#stock-bestAsk-${stockName}`);
+    stock.bestBid = stockTickers.querySelector(`#stock-bestBid-${stockName}`);
+    stock.lastChangeAsk = stockTickers.querySelector(`#stock-lastChangeAsk-${stockName}`);
+    stock.lastChangeBid = stockTickers.querySelector(`#stock-lastChangeBid-${stockName}`);
+    stock.name = stockTickers.querySelector(`#stock-name-${stockName}`);
+    stock.openAsk = stockTickers.querySelector(`#stock-openAsk-${stockName}`);
+    stock.openBid = stockTickers.querySelector(`#stock-openBid-${stockName}`);
+    stock.sparkline = stockTickers.querySelector(`#stock-sparkline-${stockName}`);
+
+    // Set created value
     stocks.set(stockName, stock);
   }
   // Update UI
   updateStockDisplay(body, stock);
-}
-
-function createStock(stockTickers, stockName) {
-  let stock = {};
-  stock.box = stockTickers.querySelector(`#stock-id-${stockName}`);
-  stock.bestAsk = stockTickers.querySelector(`#stock-bestAsk-${stockName}`);
-  stock.bestBid = stockTickers.querySelector(`#stock-bestBid-${stockName}`);
-  stock.lastChangeAsk = stockTickers.querySelector(`#stock-lastChangeAsk-${stockName}`);
-  stock.lastChangeBid = stockTickers.querySelector(`#stock-lastChangeBid-${stockName}`);
-  stock.name = stockTickers.querySelector(`#stock-name-${stockName}`);
-  stock.openAsk = stockTickers.querySelector(`#stock-openAsk-${stockName}`);
-  stock.openBid = stockTickers.querySelector(`#stock-openBid-${stockName}`);
-  stock.sparkline = stockTickers.querySelector(`#stock-sparkline-${stockName}`);
-  return stock;
 }
 
 function updateStockDisplay(body, stock) {
