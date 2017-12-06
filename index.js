@@ -11,6 +11,7 @@ require('./site/style.css');
 
 // if you want to use es6, you can do something like
 require('./es6/supplant');
+const stocksHelper = require('./es6/stocksHelper');
 // here to load the myEs6code.js file, and it will be automatically transpiled.
 
 // Change this to get detailed logging from the stomp library
@@ -18,7 +19,7 @@ global.DEBUG = false
 
 const url = "ws://localhost:8011/stomp"
 const client = Stomp.client(url);
-client.debug = function(msg) {
+client.debug = function (msg) {
   if (global.DEBUG) {
     console.info(msg)
   }
@@ -35,7 +36,7 @@ function connectCallback() {
 }
 
 function updateStocks(data) {
-  
+
   var stock, div, body = JSON.parse(data.body), stockName = body.name;
   stock = stocks.get(stockName);
 
@@ -43,61 +44,22 @@ function updateStocks(data) {
     div = document.createElement('div');
     div.innerHTML = stockTemplate.supplant(body);
     stockTickers.insertBefore(div, firstDiv(stockTickers));
-
-    stock = createStock(stockTickers, stockName);
-    
+    stock = stocksHelper.createStock(stockTickers, stockName);
     stocks.set(stockName, stock);
   }
   // Update UI
-  updateStockDisplay(body, stock);
-}
-
-function createStock(stockTickers, stockName) {
-  let stock = {};
-  stock.box = stockTickers.querySelector(`#stock-id-${stockName}`);
-  stock.bestAsk = stockTickers.querySelector(`#stock-bestAsk-${stockName}`);
-  stock.bestBid = stockTickers.querySelector(`#stock-bestBid-${stockName}`);
-  stock.lastChangeAsk = stockTickers.querySelector(`#stock-lastChangeAsk-${stockName}`);
-  stock.lastChangeBid = stockTickers.querySelector(`#stock-lastChangeBid-${stockName}`);
-  stock.name = stockTickers.querySelector(`#stock-name-${stockName}`);
-  stock.openAsk = stockTickers.querySelector(`#stock-openAsk-${stockName}`);
-  stock.openBid = stockTickers.querySelector(`#stock-openBid-${stockName}`);
-  stock.sparkline = stockTickers.querySelector(`#stock-sparkline-${stockName}`);
-  return stock;
-}
-
-function updateStockDisplay(body, stock) {
-  stock.bestAsk.innerHTML = body.bestAsk.toFixed(4);
-  stock.bestBid.innerHTML = body.bestBid.toFixed(4);
-  stock.lastChangeAsk.innerHTML = body.lastChangeAsk.toFixed(4);
-  stock.lastChangeBid.innerHTML = body.lastChangeBid.toFixed(4);
-  stock.name.innerHTML = (body.name.slice(0,3) + '-' + body.name.slice(3)).toUpperCase();
-  stock.openAsk.innerHTML = body.openAsk.toFixed(4);
-  stock.openBid.innerHTML = body.openBid.toFixed(4);
-  drawSparkline(stock.sparkline, body.lastChangeBid);
+  stocksHelper.updateStockDisplay(body, stock, sparks);
 }
 
 function firstDiv(elm) {
   return elm.getElementsByTagName('div')[0];
 }
 
-function drawSparkline(elem, val) {
-  var currentSpark = sparks.get(elem.id);
-  if (typeof currentSpark === 'undefined') {
-    currentSpark = [0];
-    sparks.set(elem.id, currentSpark);
-  }
-  currentSpark.push(Math.floor(val * 10, 1));
-  if (currentSpark.length > 9) { currentSpark.pop();}
-
-  Sparkline.draw(elem, currentSpark);
-}
-
 function init() {
   stockTickers = document.getElementById('stock-tickers');
-  stockTemplate   = document.getElementById('stock-template').innerHTML;
+  stockTemplate = document.getElementById('stock-template').innerHTML;
 
-  client.connect({}, connectCallback, function(error) {
+  client.connect({}, connectCallback, function (error) {
     alert(error.headers.message);
   });
 }
