@@ -10,7 +10,7 @@ require('./site/index.html');
 require('./site/style.css');
 
 // if you want to use es6, you can do something like
-require('./es6/main');
+require('./es6/supplant');
 // here to load the myEs6code.js file, and it will be automatically transpiled.
 
 // Change this to get detailed logging from the stomp library
