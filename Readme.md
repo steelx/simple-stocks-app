@@ -19,5 +19,10 @@ fx updates.
 Once you've started the development server, navigate to http://localhost:8011
 to read the task description and get started.
 
+#TEST
+```
+npm run test
+```
+
 #DEMO
 ![screen shot 2017-12-06 at 3 55 09 pm](https://user-images.githubusercontent.com/3184210/33657087-2ffcfe2c-da9e-11e7-9dae-5d70a23ebd71.png)
