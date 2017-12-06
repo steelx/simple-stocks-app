@@ -43,3 +43,71 @@ th {
 td:nth-child(1) {
     text-align: center
 }
+
+
+.stock-values {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+.stock-values.header > div {
+    color: #ffffff !important;
+    font-weight: bold;
+    word-break: break-word;
+    font-size: 14px;
+    background-color: #000000;
+    height: 50px;
+}
+.stock-values>div {
+    width: 90px;
+    color: #ffffff;
+    padding: 10px 10px 0 10px;
+    height: 25px;
+}
+#stock-id-eurcad .stock-values div,
+#stock-id-gbpjpy .stock-values div {
+    color: #333333;
+}
+
+
+#stock-id-usdjpy {
+    background-color: #203D6C;
+}
+#stock-id-gbpjpy {
+    background-color: #F4F1E9;
+}
+#stock-id-gbpeur {
+    background-color: #B1D0B5;
+}
+#stock-id-euraud {
+    background-color: #216C2A;
+}
+#stock-id-gbpchf {
+    background-color: #4E9455;
+}
+#stock-id-eurjpy {
+    background-color: #F4CE30;
+}
+#stock-id-eurchf {
+    background-color: #E2381F;
+}
+#stock-id-gbpusd {
+    background-color: #002F5B;
+}
+#stock-id-gbpcad {
+    background-color: #F5BD36;
+}
+#stock-id-usdeur {
+    background-color: #6F9C5A;
+}
+#stock-id-gbpaud {
+    background-color: #4F4B40;
+}
+#stock-id-eurcad {
+    background-color: #FFF5D6;
+}

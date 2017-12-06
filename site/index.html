@@ -164,49 +164,38 @@
         may use a mac or windows to do this, so you shouldn't include anything excessively platform specific.
     </p>
 </section>
-<stock-elem title="Shadow DOM" owner="Ajinkya Default"></stock-elem>
 
-<template id="stock-elem">
-    <!-- Shadow DOM styles - only valid in the Shadow DOM -->
-    <style>
-      hr{
-        border: none;
-        border-top: 2px solid purple;
-        margin: 30px 0px;
-        width: 215px;
-        opacity: 0.5;
-      }
-      input, button{
-        font-family: "Lato";
-        font-weight: 700;
-        font-size: 14px;
-        color: #555;
-        border-radius: 2px;
-        background: white;
-        border: 2px solid #ddd;
-        padding: 5px;
-        margin-top: 10px;
-      }
-      input{
-        width: 200px;
-      }
-      strong, button{
-        font-family: "Lato";
-        text-transform: uppercase;
-        font-weight: 700;
-      }
-      button{
-        margin-right: 10px;
-        width: 100px;
-      }
-    </style>
-    <hr>
-    <h1 data-bind="title"></h1>
-    <p>
-      This is <strong data-bind="owner"></strong>.
-    </p>
-    
-  </template>
+<section>
+        <div class="stock-values header">
+            <div id="stock-name">Stock Name</div>
+            <div id="stock-bestAsk">Best Ask</div>
+            <div id="stock-bestBid">Best Bid</div>
+            <div id="stock-openAsk">Open Ask</div>
+            <div id="stock-openBid">Open Bid</div>
+            <div id="stock-lastChangeAsk">Last Change Ask</div>
+            <div id="stock-lastChangeBid">Last Change Bid</div>
+            <div id="stock-sparkline">Last 30 secs</div>
+        </div>
+
+        <div id="stock-tickers"></div>
+</section>
+
+<script id="stock-template" type="text/template">
+    <div id="stock-id-{name}" data-on="on" class="tile animate">
+        
+        <div class="stock-values">
+            <div id="stock-name-{name}">{name}</div>
+            <div id="stock-bestAsk-{name}">{bestAsk}</div>
+            <div id="stock-bestBid-{name}">{bestBid}</div>
+            <div id="stock-openAsk-{name}">{openAsk}</div>
+            <div id="stock-openBid-{name}">{openBid}</div>
+            <div id="stock-lastChangeAsk-{name}" >{lastChangeAsk}</div>
+            <div id="stock-lastChangeBid-{name}" >{lastChangeBid}</div>
+            <div id="stock-sparkline-{name}"></div>
+        </div>
+        
+    </div>
+</script>
 <!-- Code you write in index.js and anything it depends on will be bundled into bundle.js and
      is included here -->
      <script src="bundle.js"></script>
