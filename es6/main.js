@@ -1,1 +1,4 @@
-console.log('ajinkya');
+function check() {
+    console.log('check');
+}
+check();

@@ -11,6 +11,7 @@ require('./site/style.css');
 
 // if you want to use es6, you can do something like
 require('./es6/main');
+require('./es6/StockElem');
 // here to load the myEs6code.js file, and it will be automatically transpiled.
 
 // Change this to get detailed logging from the stomp library
@@ -27,9 +28,7 @@ client.debug = function(msg) {
 function connectCallback() {
   document.getElementById('stomp-status').innerHTML = "It has now successfully connected to a stomp server serving price updates for some foreign exchange currency pairs.";
 
-  client.subscribe("/fx/prices", message_callback, function(message) {
-    document.getElementById('stomp-status').innerHTML = message;
-  });
+  client.subscribe("/fx/prices", message_callback);
 }
 
 client.connect({}, connectCallback, function(error) {
@@ -37,7 +36,15 @@ client.connect({}, connectCallback, function(error) {
 });
 
 function message_callback(...args) {
-  console.log(args);
+  for (const msg of args) {
+    let body = JSON.parse(msg.body);
+    console.log(body);
+  }
 }
+
+function createTable(data) {
+
+}
+
 const exampleSparkline = document.getElementById('example-sparkline')
 Sparkline.draw(exampleSparkline, [1, 2, 3, 6, 8, 20, 2, 2, 4, 2, 3])
