@@ -45,6 +45,7 @@ function updateStocks(data) {
     stockTickers.insertBefore(div, firstDiv(stockTickers));
 
     stock = createStock(stockTickers, stockName);
+    
     stocks.set(stockName, stock);
   }
   // Update UI
