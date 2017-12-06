@@ -36,7 +36,6 @@ function connectCallback() {
 }
 
 function updateStocks(data) {
-
   var stock, div, body = JSON.parse(data.body), stockName = body.name;
   stock = stocks.get(stockName);
 
