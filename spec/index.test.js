@@ -35,7 +35,6 @@ describe('StockTicker', () => {
   test('createStock should return HTMLDivElement', () => {
     expect(App.store.stockTickers.toString()).toBe('[object HTMLDivElement]');
   });
-  
 
 });
 
