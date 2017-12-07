@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./devserver",
-    "test": "jest --coverage"
+    "test": "jest"
   },
   "keywords": [],
   "author": "Ajinkya Borade",
@@ -26,6 +26,7 @@
     "jest": "^21.2.1",
     "jsdom": "^11.5.1",
     "lodash.merge": "^4.3.5",
+    "mock-socket": "^7.1.0",
     "postcss-loader": "^0.8.2",
     "regenerator-runtime": "^0.11.0",
     "stompjs": "^2.3.3",

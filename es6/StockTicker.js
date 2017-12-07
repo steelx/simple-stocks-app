@@ -1,5 +1,6 @@
 require('./supplant');
 const stocksHelper = require('./stocksHelper');
+require('../site/stomp');
 
 class StockTicker {
   constructor(parentID, template, stompURL) {
