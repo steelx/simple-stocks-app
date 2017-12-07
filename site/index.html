@@ -9,37 +9,20 @@
 </head>
 <body>
 
-<section>
-        <div class="stock-values header">
-            <div id="stock-name">Stock Name</div>
-            <div id="stock-bestAsk">Best Ask</div>
-            <div id="stock-bestBid">Best Bid</div>
-            <div id="stock-openAsk">Open Ask</div>
-            <div id="stock-openBid">Open Bid</div>
-            <div id="stock-lastChangeAsk">Last Change Ask</div>
-            <div id="stock-lastChangeBid">Last Change Bid</div>
-            <div id="stock-sparkline">Last 30 secs</div>
-        </div>
-
-        <div id="stock-tickers"></div>
-</section>
-
-<script id="stock-template" type="text/template">
-    <div id="stock-id-{name}" data-on="on" class="tile animate">
-        
-        <div class="stock-values">
-            <div id="stock-name-{name}">{name}</div>
-            <div id="stock-bestAsk-{name}">{bestAsk}</div>
-            <div id="stock-bestBid-{name}">{bestBid}</div>
-            <div id="stock-openAsk-{name}">{openAsk}</div>
-            <div id="stock-openBid-{name}">{openBid}</div>
-            <div id="stock-lastChangeAsk-{name}" >{lastChangeAsk}</div>
-            <div id="stock-lastChangeBid-{name}" >{lastChangeBid}</div>
-            <div id="stock-sparkline-{name}"></div>
-        </div>
-        
+<main class="app">
+    <div class="stock-values header">
+        <div id="stock-name">Stock Name</div>
+        <div id="stock-bestAsk">Best Ask</div>
+        <div id="stock-bestBid">Best Bid</div>
+        <div id="stock-openAsk">Open Ask</div>
+        <div id="stock-openBid">Open Bid</div>
+        <div id="stock-lastChangeAsk">Last Change Ask</div>
+        <div id="stock-lastChangeBid">Last Change Bid</div>
+        <div id="stock-sparkline">Last 30 secs</div>
     </div>
-</script>
+
+    <div id="stock-tickers"></div>
+</main>
 <!-- Code you write in index.js and anything it depends on will be bundled into bundle.js and
      is included here -->
      <script src="bundle.js"></script>

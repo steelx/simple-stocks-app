@@ -15,8 +15,8 @@ const stocksHelper = require('./es6/stocksHelper');
 // here to load the myEs6code.js file, and it will be automatically transpiled.
 
 class APP {
-  constructor(parentID, templateID, stompURL, stocksHelper) {
-    this.init(parentID, templateID, stompURL);
+  constructor(parentID, template, stompURL, stocksHelper) {
+    this.init(parentID, template, stompURL);
   }
 
   createStompClient(url) {
@@ -30,11 +30,11 @@ class APP {
     return client;
   }
 
-  initVariables(parentID, templateID, stompURL) {
+  initVariables(parentID, template, stompURL) {
     // GLOBALS
     this.store = {};
     this.store.stockTickers = document.getElementById(parentID);
-    this.store.stockTemplate = document.getElementById(templateID).innerHTML;
+    this.store.stockTemplate = template;
     this.store.stocks = new Map();
     this.store.sparks = new Map();
     this.client = this.createStompClient(stompURL);
@@ -69,5 +69,15 @@ class APP {
   }
 
 }
-
-var app = new APP('stock-tickers', 'stock-template', 'ws://localhost:8011/stomp', stocksHelper);
+const TEMPLATE = `<div id="stock-id-{name}" data-on="on" class="tile animate">
+<div class="stock-values">
+    <div id="stock-name-{name}">{name}</div>
+    <div id="stock-bestAsk-{name}">{bestAsk}</div>
+    <div id="stock-bestBid-{name}">{bestBid}</div>
+    <div id="stock-openAsk-{name}">{openAsk}</div>
+    <div id="stock-openBid-{name}">{openBid}</div>
+    <div id="stock-lastChangeAsk-{name}" >{lastChangeAsk}</div>
+    <div id="stock-lastChangeBid-{name}" >{lastChangeBid}</div>
+    <div id="stock-sparkline-{name}"></div>
+</div></div>`;
+const app = new APP('stock-tickers', TEMPLATE, 'ws://localhost:8011/stomp', stocksHelper);
