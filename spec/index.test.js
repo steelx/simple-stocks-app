@@ -32,11 +32,17 @@ describe('StockTicker', () => {
     expect(typeof App.store.sparks.entries()).toBe('object');
   });
 
-  test('App stockTickers should be HTMLDivElement', () => {
+  test('createStock should return HTMLDivElement', () => {
     expect(App.store.stockTickers.toString()).toBe('[object HTMLDivElement]');
   });
-
-  
   
 
+});
+
+describe('supplant', () => {
+  const data = '{"name":"gbpcad","bestBid":1.8600257150436224,"bestAsk":1.901847151956841,"openBid":1.8201712457721382,"openAsk":1.840428754227862,"lastChangeAsk":0.10404159488544185,"lastChangeBid":0.13830905554562323}';
+  test('string template should compile', () => {
+    let source = TEMPLATE.supplant(JSON.parse(data));
+    expect(source.indexOf('stock-id-gbpcad')).toBeGreaterThan(0);
+  });
 });
