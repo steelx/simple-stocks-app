@@ -14,51 +14,60 @@ require('./es6/supplant');
 const stocksHelper = require('./es6/stocksHelper');
 // here to load the myEs6code.js file, and it will be automatically transpiled.
 
-// Change this to get detailed logging from the stomp library
-global.DEBUG = false
-
-const url = "ws://localhost:8011/stomp"
-const client = Stomp.client(url);
-client.debug = function (msg) {
-  if (global.DEBUG) {
-    console.info(msg)
+class APP {
+  constructor(parentID, templateID, stompURL, stocksHelper) {
+    this.init(parentID, templateID, stompURL);
   }
-}
 
-// GLOBALS
-var stockTickers, stockTemplate, stocks = new Map(), sparks = new Map();
-
-// INIT
-init();
-
-function connectCallback() {
-  client.subscribe("/fx/prices", updateStocks);
-}
-
-function updateStocks(data) {
-  var stock, div, body = JSON.parse(data.body), stockName = body.name;
-  stock = stocks.get(stockName);
-
-  if (typeof stock === 'undefined') {
-    div = document.createElement('div');
-    div.innerHTML = stockTemplate.supplant(body);
-    stockTickers.insertBefore(div, firstDiv(stockTickers));
-    stock = stocksHelper.createStock(stockTickers, stockName);
-    stocks.set(stockName, stock);
+  createStompClient(url) {
+    let client = Stomp.client(url);
+    const DEBUG = false;
+    client.debug = function (msg) {
+      if (DEBUG) {
+        console.info(msg)
+      }
+    }
+    return client;
   }
-  // Update UI
-  stocksHelper.updateStockDisplay(body, stock, sparks);
+
+  initVariables(parentID, templateID, stompURL) {
+    // GLOBALS
+    this.store = {};
+    this.store.stockTickers = document.getElementById(parentID);
+    this.store.stockTemplate = document.getElementById(templateID).innerHTML;
+    this.store.stocks = new Map();
+    this.store.sparks = new Map();
+    this.client = this.createStompClient(stompURL);
+  }
+
+  init(parentID, templateID, stompURL) {
+    this.initVariables(parentID, templateID, stompURL);
+    this.client.connect({}, this.connectCallback.bind(this), error => alert(error.headers.message));
+  }
+
+  connectCallback() {
+    this.client.subscribe("/fx/prices", this.updateStocks.bind(this));
+  }
+
+  updateStocks(data) {
+    let stock, div, body = JSON.parse(data.body), stockName = body.name;
+    stock = this.store.stocks.get(stockName);
+  
+    if (typeof stock === 'undefined') {
+      div = document.createElement('div');
+      div.innerHTML = this.store.stockTemplate.supplant(body);
+      this.store.stockTickers.insertBefore(div, this.firstDiv(this.store.stockTickers));
+      stock = stocksHelper.createStock(this.store.stockTickers, stockName);
+      this.store.stocks.set(stockName, stock);
+    }
+    // Update UI
+    stocksHelper.updateStockDisplay(body, stock, this.store.sparks);
+  }
+
+  firstDiv(elm) {
+    return elm.getElementsByTagName('div')[0];
+  }
+
 }
 
-function firstDiv(elm) {
-  return elm.getElementsByTagName('div')[0];
-}
-
-function init() {
-  stockTickers = document.getElementById('stock-tickers');
-  stockTemplate = document.getElementById('stock-template').innerHTML;
-
-  client.connect({}, connectCallback, function (error) {
-    alert(error.headers.message);
-  });
-}
+var app = new APP('stock-tickers', 'stock-template', 'ws://localhost:8011/stomp', stocksHelper);

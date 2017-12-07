@@ -22,10 +22,7 @@ function updateStockDisplay(body, stock, sparks) {
     drawSparkline(stock.sparkline, body.lastChangeBid, sparks);
 }
 function drawSparkline(elem, val, sparks) {
-    var currentSpark = sparks.get(elem.id);
-    if(elem.id === 'stock-sparkline-eurchf') {
-        debugger;   
-    }
+    let currentSpark = sparks.get(elem.id);
     if (typeof currentSpark === 'undefined') {
       currentSpark = [0];
       sparks.set(elem.id, currentSpark);
