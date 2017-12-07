@@ -23,12 +23,15 @@ function updateStockDisplay(body, stock, sparks) {
 }
 function drawSparkline(elem, val, sparks) {
     var currentSpark = sparks.get(elem.id);
+    if(elem.id === 'stock-sparkline-eurchf') {
+        debugger;   
+    }
     if (typeof currentSpark === 'undefined') {
       currentSpark = [0];
       sparks.set(elem.id, currentSpark);
     }
-    currentSpark.push(Math.floor(val * 10, 1));
-    if (currentSpark.length > 9) { currentSpark.pop(); }
+    currentSpark.push(val.toFixed(2));
+    if (currentSpark.length >= 9) { currentSpark.splice(1,1); }
     Sparkline.draw(elem, currentSpark);
 }
 
