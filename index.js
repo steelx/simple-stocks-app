@@ -9,8 +9,17 @@ require('./site/index.html');
 // Apply the styles in style.css to the page.
 require('./site/style.css');
 // if you want to use es6, you can do something like
-const StockTicker = require('./es6/StockTicker');
+const DEBUG = false
 
+const url = "ws://localhost:8011/stomp"
+const client = Stomp.client(url);
+client.debug = function(msg) {
+  if (DEBUG) {
+    console.info(msg)
+  }
+}
+
+const StockTicker = require('./es6/StockTicker');
 const TEMPLATE = `<div id="stock-id-{name}" data-on="on" class="tile animate">
 <div class="stock-values">
     <div id="stock-name-{name}">{name}</div>
@@ -22,4 +31,8 @@ const TEMPLATE = `<div id="stock-id-{name}" data-on="on" class="tile animate">
     <div id="stock-lastChangeBid-{name}" >{lastChangeBid}</div>
     <div id="stock-sparkline-{name}"></div>
 </div></div>`;
-const app = new StockTicker('stock-tickers', TEMPLATE, 'ws://localhost:8011/stomp');
+
+const _stockTicker = new StockTicker('stock-tickers', TEMPLATE, window.document);
+client.connect({}, function connectCallback() {
+  client.subscribe("/fx/prices", _stockTicker.updateStocks.bind(_stockTicker));
+}, error => alert(error.headers.message));

@@ -2,38 +2,21 @@ require('./supplant');
 const stocksHelper = require('./stocksHelper');
 
 class StockTicker {
-  constructor(parentID, template, stompURL) {
-    this.init(parentID, template, stompURL);
+  constructor(parentID, template, document) {
+    this.init(parentID, template, document);
   }
 
-  createStompClient(url) {
-    let client = Stomp.client(url);
-    const DEBUG = false;
-    client.debug = function (msg) {
-      if (DEBUG) {
-        console.info(msg)
-      }
-    }
-    return client;
-  }
-
-  initVariables(parentID, template, stompURL) {
+  initVariables(parentID, template, document) {
     // GLOBALS
     this.store = {};
-    this.store.stockTickers = document.getElementById(parentID);
+    this.store.stockTickers = document.querySelector(`#${parentID}`);
     this.store.stockTemplate = template;
     this.store.stocks = new Map();
     this.store.sparks = new Map();
-    this.client = this.createStompClient(stompURL);
   }
 
-  init(parentID, templateID, stompURL) {
-    this.initVariables(parentID, templateID, stompURL);
-    this.client.connect({}, this.connectCallback.bind(this), error => alert(error.headers.message));
-  }
-
-  connectCallback() {
-    this.client.subscribe("/fx/prices", this.updateStocks.bind(this));
+  init(parentID, template, document) {
+    this.initVariables(parentID, template, document);
   }
 
   updateStocks(data) {
