@@ -34,19 +34,21 @@ class StockTicker {
     }
     // Update UI
     stockRow = this.updateStockDisplay(data, stockRow);
+    // Update store
+    this.setStockRow(stockName, stockRow);
+
     // Draw sparkline
     if (!testing) {
       Sparkline.draw(stockRow.sparkline, this.getSparksArray(stockRow.sparkline.id, data.lastChangeBid, this.store.sparks));
     }
-    // Update store
-    this.setStockRow(stockName, stockRow);
+    // Sort UI with CSS
     this.updateParentGridRow(this.store.stocks.size);
-    this.store.stocks = this.sortStocksGridRowBy('lastChangeBid');
+    this.store.stocks = this.sortStocksGridRowBy('lastChangeBid', this.store.stocks);
   }
 
-  sortStocksGridRowBy(str) {
+  sortStocksGridRowBy(str, stocks) {
     let arr = [];
-    for(let i of this.store.stocks) {
+    for(let i of stocks) {
       arr.push(i);
     }
     

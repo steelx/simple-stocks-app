@@ -35,13 +35,20 @@ describe('class StockTicker', () => {
     expect(App.store.stockTickers.toString()).toBe('[object HTMLDivElement]');
   });
 
-  test('createStock and updateStockDisplay updates UI', () => {
+  test('updateStocks Stocks UI and sorts row', () => {
     const data = {
       body:'{"name":"gbpcad","bestBid":1.8600257150436224,"bestAsk":1.901847151956841,"openBid":1.8201712457721382,"openAsk":1.840428754227862,"lastChangeAsk":0.10404159488544185,"lastChangeBid":0.13830905554562323}'
     };
     App.updateStocks(data, true);
     // true - Skip Sparkline testing 
     //https://github.com/Automattic/node-canvas/wiki/Installation---OSX
+    expect(App.store.stocks.size).toBe(1);
+
+    const data2 = {
+      body:'{"name":"gbpjpy","bestBid":1.24,"bestAsk":2.22,"openBid":1.8201712457721382,"openAsk":1.840428754227862,"lastChangeAsk":0.10404159488544185,"lastChangeBid":6}'
+    };
+    App.updateStocks(data2, true);
+    expect(App.store.stocks.size).toBe(2);
   });
 
   test("getSparksArray should return an Array", () => {
