@@ -18,9 +18,9 @@ const TEMPLATE = `<div id="stock-id-{name}">
 describe('class StockTicker', () => {
   let App;
   const dom = new JSDOM(
-    `<!DOCTYPE html><body>
+    `'<!doctype html><html><body>
       <div id="stock-tickers"></div>
-    </body>`
+      </body></html>`
   );
   const document = dom.window.document;
 
@@ -40,6 +40,8 @@ describe('class StockTicker', () => {
       body:'{"name":"gbpcad","bestBid":1.8600257150436224,"bestAsk":1.901847151956841,"openBid":1.8201712457721382,"openAsk":1.840428754227862,"lastChangeAsk":0.10404159488544185,"lastChangeBid":0.13830905554562323}'
     };
     App.updateStocks(data, true);
+    // true to avoid JSDOM Canvas issue which can be fixed by install 3 packages 
+    //https://github.com/Automattic/node-canvas/wiki/Installation---OSX
   });
 
   test("getSparksArray should return an Array", () => {
