@@ -42,6 +42,11 @@ describe('class StockTicker', () => {
     App.updateStocks(data, true);
   });
 
+  test("getSparksArray should return an Array", () => {
+    let arr = App.getSparksArray('test', 2.22, new Map());
+    expect(arr.length).toBeGreaterThan(0);
+  });
+
 });
 
 describe('supplant', () => {
