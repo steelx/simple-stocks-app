@@ -20,7 +20,7 @@ class StockTicker {
     this.initVariables(parentID, template, document);
   }
 
-  updateStocks(res, testing) {
+  updateStocks(res, testing = false) {
     const data = JSON.parse(res.body),
           stockName = data.name;
     let stockRow = this.getStockRow(stockName);
