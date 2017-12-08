@@ -20,7 +20,7 @@ client.debug = function(msg) {
 }
 
 const StockTicker = require('./es6/StockTicker');
-const TEMPLATE = `<div id="stock-id-{name}" data-on="on" class="tile animate">
+const TEMPLATE = `<div id="stock-id-{name}">
 <div class="stock-values">
     <div id="stock-name-{name}">{name}</div>
     <div id="stock-bestAsk-{name}">{bestAsk}</div>
