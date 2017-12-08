@@ -27,8 +27,9 @@ class StockTicker {
   
     if (typeof stockRow === 'undefined') {
       let div = this.store.document.createElement('div');
+      div.setAttribute('id', `stock-id-${stockName}`);
       div.innerHTML = this.store.stockTemplate.supplant(data);
-      this.store.stockTickers.insertBefore(div, this.firstDiv(this.store.stockTickers));
+      this.store.stockTickers.insertBefore(div, this.firstDiv(this.store.stockTickers, div));
       stockRow = this.createStock(this.store.stockTickers, stockName);
     }
     // Update UI
@@ -39,6 +40,30 @@ class StockTicker {
     }
     // Update store
     this.setStockRow(stockName, stockRow);
+    this.updateParentGridRow(this.store.stocks.size);
+    this.store.stocks = this.sortStocksGridRowBy('lastChangeBid');
+  }
+
+  sortStocksGridRowBy(str) {
+    let arr = [];
+    for(let i of this.store.stocks) {
+      arr.push(i);
+    }
+    
+    arr.sort(function(x, y) {
+      return y[1][str].innerText - x[1][str].innerText;
+    });
+    
+    let sorted = arr.reduce((accum, a) => {
+      a[1].box.style.gridRow = accum.length + 1;
+      return [...accum, a];
+    }, []);
+
+    return new Map(sorted);
+  }
+
+  updateParentGridRow(count) {
+    this.store.stockTickers.style.gridTemplateRows = `repeat(${count},auto)`
   }
 
   getStockRow(stockName) {
@@ -83,7 +108,7 @@ class StockTicker {
     return stock;
   }
 
-  firstDiv(elm) {
+  firstDiv(elm, compareDiv) {
     return elm.getElementsByTagName('div')[0];
   }
 

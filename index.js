@@ -20,17 +20,17 @@ client.debug = function(msg) {
 }
 
 const StockTicker = require('./es6/StockTicker');
-const TEMPLATE = `<div id="stock-id-{name}">
+const TEMPLATE = `
 <div class="stock-values">
-    <div id="stock-name-{name}">{name}</div>
-    <div id="stock-bestAsk-{name}">{bestAsk}</div>
-    <div id="stock-bestBid-{name}">{bestBid}</div>
-    <div id="stock-openAsk-{name}">{openAsk}</div>
-    <div id="stock-openBid-{name}">{openBid}</div>
-    <div id="stock-lastChangeAsk-{name}" >{lastChangeAsk}</div>
-    <div id="stock-lastChangeBid-{name}" >{lastChangeBid}</div>
-    <div id="stock-sparkline-{name}"></div>
-</div></div>`;
+    <div id="stock-name-{name}" class="stock-name">{name}</div>
+    <div id="stock-bestAsk-{name}" class="stock-bestAsk">{bestAsk}</div>
+    <div id="stock-bestBid-{name}" class="stock-bestBid">{bestBid}</div>
+    <div id="stock-openAsk-{name}" class="stock-openAsk">{openAsk}</div>
+    <div id="stock-openBid-{name}" class="stock-openBid">{openBid}</div>
+    <div id="stock-lastChangeAsk-{name}" class="stock-lastChangeAsk">{lastChangeAsk}</div>
+    <div id="stock-lastChangeBid-{name}" class="stock-lastChangeBid">{lastChangeBid}</div>
+    <div id="stock-sparkline-{name}" class="stock-sparkline"></div>
+</div>`;
 
 const _stockTicker = new StockTicker('stock-tickers', TEMPLATE, window.document);
 client.connect({}, function connectCallback() {

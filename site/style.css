@@ -44,7 +44,10 @@ td:nth-child(1) {
     text-align: center
 }
 
-
+#stock-tickers {
+    display: grid;
+    grid-template-columns: 1fr;
+}
 .stock-values {
     display: -webkit-flex;
     display: flex;
