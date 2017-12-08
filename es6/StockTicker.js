@@ -1,5 +1,4 @@
 require('./supplant');
-const stocksHelper = require('./stocksHelper');
 const Sparkline = require('../site/sparkline');
 
 class StockTicker {
@@ -21,7 +20,7 @@ class StockTicker {
     this.initVariables(parentID, template, document);
   }
 
-  updateStocks(res) {
+  updateStocks(res, testing) {
     const data = JSON.parse(res.body),
           stockName = data.name;
     let stockRow = this.getStockRow(stockName);
@@ -30,12 +29,14 @@ class StockTicker {
       let div = this.store.document.createElement('div');
       div.innerHTML = this.store.stockTemplate.supplant(data);
       this.store.stockTickers.insertBefore(div, this.firstDiv(this.store.stockTickers));
-      stockRow = stocksHelper.createStock(this.store.stockTickers, stockName);
+      stockRow = this.createStock(this.store.stockTickers, stockName);
     }
     // Update UI
-    stockRow = stocksHelper.updateStockDisplay(data, stockRow);
+    stockRow = this.updateStockDisplay(data, stockRow);
     // Draw sparkline
-    Sparkline.draw(stockRow.sparkline, this.getSparksArray(stockRow.sparkline.id, data.lastChangeBid, this.store.sparks));
+    if (!testing) {
+      Sparkline.draw(stockRow.sparkline, this.getSparksArray(stockRow.sparkline.id, data.lastChangeBid, this.store.sparks));
+    }
     // Update store
     this.setStockRow(stockName, stockRow);
   }
@@ -56,7 +57,31 @@ class StockTicker {
     currentSpark.push(val.toFixed(2));
     if (currentSpark.length >= 9) { currentSpark.splice(1,1); }
     return currentSpark;
-}
+  }
+
+  createStock(stockTickers, stockName) {
+    let stock = {};
+    stock.box = stockTickers.querySelector(`#stock-id-${stockName}`);
+    stock.bestAsk = stockTickers.querySelector(`#stock-bestAsk-${stockName}`);
+    stock.bestBid = stockTickers.querySelector(`#stock-bestBid-${stockName}`);
+    stock.lastChangeAsk = stockTickers.querySelector(`#stock-lastChangeAsk-${stockName}`);
+    stock.lastChangeBid = stockTickers.querySelector(`#stock-lastChangeBid-${stockName}`);
+    stock.name = stockTickers.querySelector(`#stock-name-${stockName}`);
+    stock.openAsk = stockTickers.querySelector(`#stock-openAsk-${stockName}`);
+    stock.openBid = stockTickers.querySelector(`#stock-openBid-${stockName}`);
+    stock.sparkline = stockTickers.querySelector(`#stock-sparkline-${stockName}`);
+    return stock;
+  }
+  updateStockDisplay(data, stock) {
+    stock.bestAsk.innerHTML = data.bestAsk.toFixed(4);
+    stock.bestBid.innerHTML = data.bestBid.toFixed(4);
+    stock.lastChangeAsk.innerHTML = data.lastChangeAsk.toFixed(4);
+    stock.lastChangeBid.innerHTML = data.lastChangeBid.toFixed(4);
+    stock.name.innerHTML = (data.name.slice(0, 3) + '-' + data.name.slice(3)).toUpperCase();
+    stock.openAsk.innerHTML = data.openAsk.toFixed(4);
+    stock.openBid.innerHTML = data.openBid.toFixed(4);
+    return stock;
+  }
 
   firstDiv(elm) {
     return elm.getElementsByTagName('div')[0];
