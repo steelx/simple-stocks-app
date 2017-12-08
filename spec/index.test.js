@@ -40,7 +40,7 @@ describe('class StockTicker', () => {
       body:'{"name":"gbpcad","bestBid":1.8600257150436224,"bestAsk":1.901847151956841,"openBid":1.8201712457721382,"openAsk":1.840428754227862,"lastChangeAsk":0.10404159488544185,"lastChangeBid":0.13830905554562323}'
     };
     App.updateStocks(data, true);
-    // true to avoid JSDOM Canvas issue which can be fixed by install 3 packages 
+    // true - Skip Sparkline testing 
     //https://github.com/Automattic/node-canvas/wiki/Installation---OSX
   });
 
