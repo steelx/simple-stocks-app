@@ -23,6 +23,113 @@
 
     <div id="stock-tickers"></div>
 </main>
+
+<section class="documentation">
+    
+        <h2>Implementation Notes</h2>
+    
+        <hr />
+    
+        <h3>High-level overview</h3>
+
+        <p>Application can be run using:</p>
+        <pre>npm run start</pre>
+    
+        <p>
+            The application is made up of two JS files, plus the HTML template:
+        </p>
+        
+        <ul>
+            <li><b>index.js</b>: holds the data to be displayed in the template as well the Stomp client.</li>
+            <li><b>StockTickers.js</b>: encapsulates the state and model, controller. Which instantiates once, and updateStocks is called each time Response DATA is received.</li>
+            <li><b>index.html</b>: we pick the ID of the parent container from here.</li>
+        </ul>
+    
+        <pre>
+    
+                                                   +----------------+                                               
+                                                   |                |                                               
+                                                   |  StockTicker   |                                               
+                                                   |                |                                               
+                                                   +----------------+                                               
+                                                      |           |                                                 
+                                                      |           |                                                 
+                                                      |           | instantiates                                         
+                                                      |           |                                                 
+                                                      v           v                                                 
+            +--------------+            +---------------+       +---------------+                                   
+            |              |  Response  |               |       |               |                                   
+            | updateStocks |<-----------|    Stomp      |       |  Controller   |                                   
+            |              |            |    Client     |       |               |                                   
+            +--------------+            +---------------+       +---------------+                                 
+                  
+        </pre>                                                  
+    
+        <h3>Additional development steps</h3>
+    
+        <p>
+            Unit tests have been written using <a href="https://github.com/facebook/jest" target="_blank">Jest</a> and can be found under the /spec folder. They can be run using:
+        </p>
+    
+        <pre>npm run test</pre>
+    
+        <p>
+            As this is intended as a demo app, I've included tests only for the Model and Midprices classes, but would be happy to discuss how I'd go about testing the rest of the code.
+        </p>
+    
+        <p>
+            Please note: I'm running the tests under node 6.11.0, but they are being transpiled by babel so there shouldn't be any compatibility issues.
+        </p>
+    
+        <h3>Improvements</h3>
+    
+        <p>Third-party frameworks/libraries:</p>
+    
+        <ul>
+            <li>
+                A framework/library that provides data binding, such as <strong>Angular</strong> or <strong>React</strong>, would be my number one choice. This means the view would be automatically updated upon model changes, thus allowing the client to be completely decoupled from the controller, enabling an architecture like this:
+                <pre>
+                                                +----------------+                            
+                                                |                |                            
+                                                |     Client     |                            
+                                                |                |                            
+                                                +----------------+                            
+                                                         |                                     
+                                                         |                                     
+                                                 updates |                                     
+                                                         |                                     
+                                                         v                                     
+                     +--------------+            +---------------+            +---------------+
+                     |              |            |               |            |               |
+                     | StockTicker  |<-----------|     Model     |            |  Controller   |
+                     |              |            |               |            |               |
+                     +--------------+            +---------------+            +---------------+
+                                                         |                            ^
+                                                         |                            |
+                                                         |                            |
+                                                         |                            |
+                                                         +-----------------------------
+                                                        updates via data-binding or events
+                                                                                                        
+                </pre>
+                It would also make the DOM manipulation in the controller easier, and allow conditional logic to be applied to HTML.
+            </li>
+            <li>A nice-to-have would be some kind of utility library like <strong>Lo-Dash</strong>, for object and array manipulation.</li>
+            <li>If the application was going to be extended with additional components, then some front-end library such as <strong>Bootstrap</strong> would reduce the amount of boilerplate code required.</li>
+        </ul>
+    
+        <p>
+            If I were to spend more time improving the application, these are some of the things I would do:
+        </p>
+    
+        <ul>
+            <li>Determine the order of columns programatically, instead adding style grid-row.</li>
+            <li>Improve the UX, for example by highlighting the row that was changed on each update</li>
+            <li>Perform more robust error-checking, alike React's componentDidCatch()</li>
+        </ul>
+    
+    </section>
+
 <!-- Code you write in index.js and anything it depends on will be bundled into bundle.js and
      is included here -->
      <script src="bundle.js"></script>
