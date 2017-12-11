@@ -3,21 +3,13 @@ const Sparkline = require('../site/sparkline');
 
 class StockTicker {
   constructor(parentID, template, document) {
-    this.init(parentID, template, document);
-  }
-
-  initVariables(parentID, template, document) {
-    // GLOBALS
+    // init
     this.store = {};
     this.store.document = document;
     this.store.stockTickers = this.store.document.querySelector(`#${parentID}`);
     this.store.stockTemplate = template;
     this.store.stocks = new Map();
     this.store.sparks = new Map();
-  }
-
-  init(parentID, template, document) {
-    this.initVariables(parentID, template, document);
   }
 
   updateStocks(res, testing = false) {
@@ -29,10 +21,13 @@ class StockTicker {
       let div = this.store.document.createElement('div');
       div.setAttribute('id', `stock-id-${stockName}`);
       div.innerHTML = this.store.stockTemplate.supplant(data);
+      // append to view
       this.store.stockTickers.insertBefore(div, this.firstDiv(this.store.stockTickers, div));
+      // create Stock row with DOM nodes
       stockRow = this.createStock(this.store.stockTickers, stockName);
     }
-    // Update UI
+    // Update existing StockRow with new Data
+    // which eventually reflects in view
     stockRow = this.updateStockDisplay(data, stockRow);
     // Update store
     this.setStockRow(stockName, stockRow);

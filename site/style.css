@@ -66,11 +66,15 @@ td:nth-child(1) {
     background-color: #000000;
     height: 50px;
 }
+
 .stock-values>div {
-    width: 90px;
+    width: 100px;
     color: #ffffff;
-    padding: 10px 10px 0 10px;
+    padding: 10px 10px 0 0;
     height: 25px;
+}
+.stock-values>div:first-child {
+    padding-left: 10px;
 }
 #stock-id-eurcad .stock-values div,
 #stock-id-gbpjpy .stock-values div {
@@ -78,39 +82,44 @@ td:nth-child(1) {
 }
 
 
-#stock-id-usdjpy {
+#stock-id-usdjpy > div div {
     background-color: #203D6C;
 }
-#stock-id-gbpjpy {
+#stock-id-gbpjpy > div div {
     background-color: #F4F1E9;
 }
-#stock-id-gbpeur {
+#stock-id-gbpeur > div div {
     background-color: #B1D0B5;
 }
-#stock-id-euraud {
+#stock-id-euraud > div div {
     background-color: #216C2A;
 }
-#stock-id-gbpchf {
+#stock-id-gbpchf > div div {
     background-color: #4E9455;
 }
-#stock-id-eurjpy {
+#stock-id-eurjpy > div div {
     background-color: #F4CE30;
 }
-#stock-id-eurchf {
+#stock-id-eurchf > div div {
     background-color: #E2381F;
 }
-#stock-id-gbpusd {
+#stock-id-gbpusd > div div {
     background-color: #002F5B;
 }
-#stock-id-gbpcad {
+#stock-id-gbpcad > div div {
     background-color: #F5BD36;
 }
-#stock-id-usdeur {
+#stock-id-usdeur > div div {
     background-color: #6F9C5A;
 }
-#stock-id-gbpaud {
+#stock-id-gbpaud > div div {
     background-color: #4F4B40;
 }
-#stock-id-eurcad {
+#stock-id-eurcad > div div {
     background-color: #FFF5D6;
+}
+
+.documentation {
+    max-width: 900px;
+    margin: auto;
 }
