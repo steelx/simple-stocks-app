@@ -25,7 +25,7 @@
     "fs-extra": "^0.29.0",
     "jest": "^21.2.1",
     "jsdom": "^11.5.1",
-    "lodash.merge": "^4.3.5",
+    "lodash.merge": "^4.6.2",
     "mock-socket": "^7.1.0",
     "postcss-loader": "^0.8.2",
     "regenerator-runtime": "^0.11.0",
